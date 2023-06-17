@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import Productlists from "./Productlist";
-//import Productlist from "./Productlist";
 
 const InputForm = (props) => {
   const [enterProductID, setProductId] = useState("");
@@ -31,12 +29,22 @@ const InputForm = (props) => {
       ProductName: enterProductName,
       Category: entercategory,
     };
-    localStorage.setItem(formData.Category, JSON.stringify(formData));
-    props.onsaveformData(formData);
-    setProductId("");
+    localStorage.setItem(formData.id, JSON.stringify(formData));
+
+    props.onAddproduct(
+      formData.id,
+      formData.SellingPrice,
+      formData.ProductName,
+      formData.Category
+    );
+
+    console.log(formData, "in InputForm");
+    setProductId("")
     setSellingPrice("");
     setProductName("");
-    setCategory("");
+    setCategory();
+    document.getElementById("categoryDropdown").selectedIndex = 0;
+   
   };
 
   return (
@@ -65,7 +73,8 @@ const InputForm = (props) => {
           />
 
           <label>Choose a category</label>
-          <select onChange={categoryChangeHandler}>
+          <select id="categoryDropdown" onChange={categoryChangeHandler}>
+            <option id="default" value="default">Select</option>
             <option value="Electronic Item">Electronic Item</option>
             <option value="Food Item">Food Item</option>
             <option value="Skincare Item">Skincare Item</option>
